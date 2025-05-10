@@ -20,6 +20,7 @@ const Register = () => {
     });
   };
 
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
