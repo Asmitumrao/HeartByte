@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { handleSuccess, handleError } from '../utils/toastUtils.js';
 import axios from 'axios';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const useRegister = () => {
      const [formData, setFormData] = useState({
@@ -28,7 +29,7 @@ const useRegister = () => {
 
     try{
 
-      const response = await axios.post("http://localhost:5000/api/v1/auth/register",formData,{
+      const response = await axios.post(`${apiUrl}/api/v1/auth/register`,formData,{
         headers: {
           'Content-Type': 'application/json',
         },

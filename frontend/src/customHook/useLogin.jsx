@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { handleSuccess, handleError } from '../utils/toastUtils.js';
 import axios from 'axios';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 
 
@@ -24,7 +25,7 @@ const useLogin = () => {
         e.preventDefault();
     
         try {
-        const response = await axios.post("http://localhost:5000/api/v1/auth/login", formData, {
+        const response = await axios.post(`${apiUrl}/api/v1/auth/login`, formData, {
             headers: {
             'Content-Type': 'application/json',
             },
