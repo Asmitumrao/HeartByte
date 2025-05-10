@@ -3,8 +3,6 @@ import { ToastContainer } from "react-toastify";
 import { Link } from 'react-router-dom';
 import useRegister  from '../customHook/useRegister.jsx';
 
-
-
 const Register = () => {
   
   const {formData,
