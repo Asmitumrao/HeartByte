@@ -1,31 +1,16 @@
-import React, { useState } from 'react';
-import { handleSuccess, handleError } from '../utils/toastUtils';
+import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import useLogin from '../customHook/useLogin.jsx';
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!formData.email || !formData.password) {
-      return handleError('Please fill in all fields!');
-    }
-    console.log('Login successful:', formData);
-    return handleSuccess('Login successful!');
-  };
-
+  const {
+        formData,
+        handleChange,
+        handleSubmit
+    }= useLogin();
+  
   return (
     <div className="max-w-md mx-auto mt-10 p-8 bg-white shadow-xl rounded-lg border border-gray-100 transform transition-all hover:shadow-2xl">
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Login</h2>
