@@ -6,5 +6,6 @@ backend/data/
 backend/outputs/
 
 # Node
+node_modules
 node_modules/
 .env
