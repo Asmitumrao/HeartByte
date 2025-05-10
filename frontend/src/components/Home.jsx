@@ -2,10 +2,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Added proper import for Link
 import { ChevronRight } from 'lucide-react'; // Added proper import for ChevronRight icon
-import hero from '../../public/assets/hero.png';
 import Navbar from './Navbar';
 import Features from './Features';
 import Footer from './Footer';
+import hero from '../assets/hero.png'
 
 const Home = () => {
     return (
