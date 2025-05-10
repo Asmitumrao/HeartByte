@@ -3,9 +3,9 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { connectDB } from './config/database.js';
 import dotenv from 'dotenv';
-
-
 dotenv.config();
+
+// Connect to MongoDB
 connectDB();
 
 
