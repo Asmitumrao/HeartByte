@@ -37,7 +37,7 @@ const useRegister = () => {
       })
 
       if (response.status === 201) {
-        return handleSuccess('Registration successful!');
+        return handleSuccess('Registration successful! Verify your email to login.');
       }
       else{
         console.log(response);
