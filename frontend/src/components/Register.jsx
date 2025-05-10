@@ -10,7 +10,7 @@ const Register = () => {
         handleSubmit} = useRegister();
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-8 bg-white shadow-xl rounded-lg border border-gray-100 transform transition-all hover:shadow-2xl">
+    <div className="max-w-md mx-auto mt-10 p-8 bg-white shadow-xl rounded-lg border-t-8 border-blue-600 transform transition-all hover:shadow-2xl">
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Register</h2>
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>

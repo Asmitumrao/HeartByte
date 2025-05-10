@@ -1,49 +1,47 @@
 // components/LandingPage.js
 import React from 'react';
+import { Link } from 'react-router-dom'; // Added proper import for Link
+import { ChevronRight } from 'lucide-react'; // Added proper import for ChevronRight icon
+import hero from '../../public/assets/hero.png';
+import Navbar from './Navbar';
+import Features from './Features';
+import Footer from './Footer';
+
 const Home = () => {
     return (
-        <div className="font-sans text-gray-800">
-            {/* Hero Section */}
-            <section className="bg-gradient-to-r from-blue-500 to-teal-500 bg-cover bg-center text-gray-900 py-24 px-4 text-center" style={{ backgroundImage: "url('assets/back_image.jpg')" }}>
-                <div className="hero-content">
-                    <h1 className="text-4xl font-semibold">HeartByte: Smarter Care for Heart Failure</h1>
-                    <p className="text-xl font-normal mt-4">AI-powered predictions to identify high-risk heart failure patients and support early clinical intervention.</p>
+        <div>
+            <Navbar/>
+            <section className="bg-white">
+                <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center">
+                    {/* Left Content Section */}
+                    <div className="md:w-1/2 mb-10 md:mb-0">
+                        <h1 className="text-4xl md:text-5xl font-bold text-blue-500 leading-tight mb-4">
+                            Smarter Predictions<br />
+                            Healthier Hearts
+                        </h1>
+                        <p className="text-gray-600 mb-8 max-w-lg">
+                            Each readmission is a missed opportunity. Our ML-powered model predicts 30-day 
+                            heart failure readmissions using real hospital data—helping providers 
+                            intervene early, improve care, and save lives, one heartbeat at a time.
+                        </p>
+                        <Link to="/register" className="inline-flex  hover:bg-blue-600  items-center bg-red-700 text-white py-3 px-8 rounded-full font-medium">
+                            <span className="mr-2" >Sign In</span>
+                            <ChevronRight className="w-4 h-4" />
+                        </Link>
+                    </div>
+                    
+                    {/* Right Image Section */}
+                    <div className="md:w-1/2 relative">
+                        <img 
+                            src={hero} 
+                            alt="Heart health prediction platform" 
+                            className="w-full h-auto"
+                        />
+                    </div>
                 </div>
             </section>
-
-            {/* Features Section */}
-            <section className="py-16 px-4 text-center">
-                <h2 className="text-3xl font-bold">Key Features</h2>
-                <div className="features-grid flex justify-center gap-5 flex-wrap mt-8">
-                    <div className="feature-card bg-gradient-to-r from-blue-200 to-blue-300 shadow-md p-6 rounded-lg w-72 h-56 transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
-                        <h3 className="text-xl font-bold text-blue-700">Smart Prediction</h3>
-                        <p className="font-sans mt-4">Leverages clinical data to predict 30-day readmission risk with high accuracy.</p>
-                    </div>
-                    <div className="feature-card bg-gradient-to-r from-blue-200 to-blue-300 shadow-md p-6 rounded-lg w-72 h-56 transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
-                        <h3 className="text-xl font-bold text-blue-700">Patient Insights</h3>
-                        <p className="font-sans mt-4">Understand patient risk factors and conditions contributing to readmission.</p>
-                    </div>
-                    <div className="feature-card bg-gradient-to-r from-blue-200 to-blue-300 shadow-md p-6 rounded-lg w-72 h-56 transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
-                        <h3 className="text-xl font-bold text-blue-700">Clinician Support</h3>
-                        <p className="font-sans mt-4">Helps doctors make informed decisions for follow-up care and discharge planning.</p>
-                    </div>
-                </div>
-            </section>
-
-            {/* Why Section */}
-            <section className="bg-blue-50 py-16 px-4 text-center">
-                <h2 className="text-2xl font-bold text-red-500">Why HeartByte?</h2>
-                <ul className="list-none mt-6">
-                    <li className="text-lg mb-4">❤️ Reduces hospital costs and resource burden.</li>
-                    <li className="text-lg mb-4">🧠 Empowers proactive care and early interventions.</li>
-                    <li className="text-lg">📊 Based on real MIMIC-III clinical data and machine learning models.</li>
-                </ul>
-            </section>
-
-            {/* Footer */}
-            <footer className="bg-gray-800 text-white text-center py-4">
-                <p>© 2025 HeartByte. Built with ❤️ using MIMIC-III Data.</p>
-            </footer>
+            <Features/>
+            <Footer/>
         </div>
     );
 };
