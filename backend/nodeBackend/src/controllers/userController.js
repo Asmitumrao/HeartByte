@@ -2,6 +2,7 @@ import User from '../models/User.js';
 import { asyncHandler, createResponse, AppError, validateRequest } from '../utils/asyncUtils.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import sendVerification from '../services/sendVerification.js';
 
 
 const loginUser = asyncHandler(async (req, res) => {
@@ -28,6 +29,11 @@ const loginUser = asyncHandler(async (req, res) => {
   if (!user) {
     // console.log('User not found');
     throw new AppError('User not found', 401);
+  }
+
+  // Check if user is verified
+  if (!user.isVerified) {
+    throw new AppError('User not verified', 401);
   }
 
   // Compare password
@@ -93,7 +99,9 @@ const registerUser = asyncHandler(async (req, res) => {
   // Check if user already exists
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    throw new AppError('User already exists', 400);
+    if (existingUser.isVerified) {
+      throw new AppError('User already exists', 400);
+    }
   }
 
 
@@ -103,28 +111,60 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new AppError('Error hashing password', 500);
   }
 
-
-
   // Create new user
-  const newUser = new User({ name, email, password:hashedPassword });
+  const newUser = new User({ name, email, password: hashedPassword });
   await newUser.save();
+  if (!newUser) {
+    throw new AppError('Error creating user', 500);
+  }
+  
 
-  // Generate JWT token here if needed
-  const token = jwt.sign({ id: newUser._id,name:name }, process.env.JWT_SECRET, { expiresIn: '24h' });
-  if (!token) {
+  //send email verification link
+  const verificationToken = jwt.sign({name,email}, process.env.JWT_SECRET, { expiresIn: '24h' });
+  if (!verificationToken) {
     throw new AppError('Error generating token', 500);
   }
+
+  // Send verification email
+  await sendVerification(email, verificationToken);
 
   // Respond with user info
   return res.status(201).json(createResponse({
     success: true,
-    message: 'User registered successfully',
-    data: {
-      userId: newUser._id,
-      name: newUser.name,
-      email: newUser.email
-    }
+    message: 'Verificaton Link sent to your email',
+
   }));
 })
 
-export {loginUser, registerUser};
+
+const verifyEmail = asyncHandler(async (req, res) => {
+  const { token } = req.params;
+
+  // Verify token
+  jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+    if (err) {
+      throw new AppError('Invalid or expired token', 400);
+    }
+
+    // Find user by email
+    const user = await User.findOne({ email: decoded.email });
+    if (!user) {
+      throw new AppError('User not found', 404);
+    }
+    // Update user to verified
+    user.isVerified = true;
+    await user.save();  
+
+   return res.status(200).json(createResponse({
+      success: true,
+      message: 'Email verified successfully',
+      data: {
+        userId: user._id,
+        name: user.name,
+        email: user.email
+      }
+    }));
+  });
+});
+
+export {loginUser, registerUser, verifyEmail};
