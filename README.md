@@ -1,6 +1,6 @@
 ﻿# HeartByte - Heart Failure Readmission Prediction
 
-## DEPLOYED LINK: https://heart-byte.vercel.app/dashboard
+## DEPLOYED LINK: https://heart-byte.vercel.app
 
 ## Problem Statement
 
