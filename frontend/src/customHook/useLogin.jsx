@@ -39,8 +39,8 @@ const useLogin = () => {
             handleSuccess('Login successful!');
             setTimeout(() => {
             navigate('/');
-            console.log(response.data);
-            setUser(response.data);
+            console.log(response.data.data);
+            setUser(response.data.data);
             }, 1000); 
             return;// Redirect after 2 seconds
         

@@ -16,7 +16,8 @@ const AuthProvider = ({ children }) => {
                 {},
                 { withCredentials: true }
             );
-            setUser(response.data);
+            console.log(response.data.data);
+            setUser(response.data.data);
         } catch (error) {
             console.log("user not authenticated");
             setUser(null);
@@ -27,10 +28,11 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         fetchUser();
-    }, [user]);
+        console.log("User fetched", user);
+    }, []);
 
     return (
-        <AuthContext.Provider value={{ user, loading ,setUser}}>
+        <AuthContext.Provider value={{ user, loading, setUser }}>
             {children}
         </AuthContext.Provider>
     );
