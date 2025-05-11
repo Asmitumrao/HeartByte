@@ -54,7 +54,8 @@ const loginUser = asyncHandler(async (req, res) => {
   // Respond with user info
   res.cookie('token', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'development'?false:true, // Set to true in production 
+    secure: true, // Set to true in production 
+    sameSite: 'None', // Set to 'None' for cross-origin requests
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   });
 
