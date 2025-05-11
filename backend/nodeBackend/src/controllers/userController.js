@@ -49,14 +49,13 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new AppError('Error generating token', 500);
   }
 
+  // console.log(token);
   // Respond with user info
   res.cookie('token', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'development'?false:true, // Set to true in production 
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   });
-
-
 
 
 
@@ -101,6 +100,11 @@ const registerUser = asyncHandler(async (req, res) => {
   if (existingUser) {
     if (existingUser.isVerified) {
       throw new AppError('User already exists', 400);
+    }
+    else{
+      //delete existing user if not verified
+      await User.deleteOne({email});
+      console.log('User not verified, deleting user');
     }
   }
 
@@ -167,4 +171,27 @@ const verifyEmail = asyncHandler(async (req, res) => {
   });
 });
 
-export {loginUser, registerUser, verifyEmail};
+
+const authenticateUser = asyncHandler((req, res) => {
+  res.status(200).json(createResponse({
+    success: true,
+    message: 'User authenticated successfully',
+    data: {
+      userId: req.user._id,
+      name: req.user.name,
+      email: req.user.email
+    }
+  }));
+})
+
+
+const logoutUser = asyncHandler((req, res) => {
+  res.clearCookie('token');
+  console.log('User logged out');
+  return res.status(200).json(createResponse({
+    success: true,
+    message: 'Logout successful'
+  }));
+});
+
+export {loginUser, registerUser, verifyEmail, authenticateUser, logoutUser};

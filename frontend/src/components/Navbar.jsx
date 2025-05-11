@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import logo from '../../src/assets/logo.png'
+import {AuthContext} from '../context/AuthContext.jsx';
+import { useContext } from 'react';
+
+import LogoutConfirmation from './LogoutConfirmation.jsx';
 const Navbar = () => {
+
+  const { user, loading} = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -22,10 +28,25 @@ const Navbar = () => {
         </div>
 
         {/* Authentication Links and Mobile Menu */}
-        <div className="flex items-center space-x-4">
-          <Link to="/login" className="text-gray-800 text-lg">Log in</Link>
-          <Link to="/register" className="bg-red-700 text-white px-8 py-3 hover:bg-blue-500 rounded-md font-medium">Sign In</Link>
+       
 
+        <div className="flex items-center space-x-4">
+          {/* <Link to="/login" className="text-gray-800 text-lg">Log in</Link>
+          <Link to="/register" className="bg-red-700 text-white px-8 py-3 hover:bg-blue-500 rounded-md font-medium">Sign In</Link> */}
+           {user==null ?(
+          <div className="hidden md:flex items-center space-x-4">
+            <Link to="/login" className="text-gray-800 text-lg">Log in</Link>
+            <Link to="/register" className="bg-red-700 text-white px-8 py-3 hover:bg-blue-500 rounded-md font-medium">Sign In</Link>
+          </div>
+        ) : (
+          <div className="hidden md:flex items-center space-x-4">
+            <Link to="/profile" className="text-gray-800 text-lg">Profile</Link>
+            <LogoutConfirmation/>
+            {/* <div onClick={handleLogout} className="bg-red-700 text-white px-8 py-3 hover:bg-blue-500 rounded-md font-medium">Logout</div> */}
+          </div>
+        )
+
+        }
           <div className="md:hidden">
             <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gray-500">
               {isMenuOpen ? <X /> : <Menu />}
