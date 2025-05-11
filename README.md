@@ -39,7 +39,9 @@ Install the dependencies by running:
 ```bash
 pip install -r requirements.txt
 ```
-Along with accurate predictions, we made sure to create user-friendly website with secure user authentication.
+**Along with accurate predictions, we made sure to create user-friendly website with secure user authentication.**
+
+Figma Link: https://www.figma.com/design/srSKD2Pv2H9etMUhTxjQo8/Heartbyte?node-id=0-1&t=MDm4zEBP9bXFPA8u-1
 
 ![Desktop - 1 (1)](https://github.com/user-attachments/assets/a99c9e07-ce31-4c9c-b60b-950c16aafdeb)
 
