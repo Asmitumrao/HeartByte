@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { handleSuccess, handleError } from '../utils/toastUtils.js';
 import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const useRegister = () => {
+  const navigate = useNavigate();
      const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -37,7 +39,10 @@ const useRegister = () => {
       })
 
       if (response.status === 201) {
-        return handleSuccess('Registration successful! Verify your email to login.');
+        handleSuccess('Registration successful! Verify your email to login.');
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000); // Redirect after 2 seconds
       }
       else{
         console.log(response);
