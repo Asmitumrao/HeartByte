@@ -22,7 +22,6 @@ The goal is to predict whether a patient will be readmitted within 30 days after
 ### Description of Key Folders:
 - **backend/**: Contains the Python-based ML model, data processing, and results evaluation scripts.
 - **frontend/**: Contains the ReactJS frontend to interact with the backend for prediction results.
-- **notebooks/**: Jupyter notebooks with step-by-step code for data exploration, preprocessing, model training, and evaluation.
 
 ## Dependencies
 
@@ -106,6 +105,22 @@ Used **SHAP (SHapley Additive exPlanations)** for interpretability:
 - **Dependence Plot** – How a feature affects predictions  
 - **Waterfall Plot** – Step-by-step explanation of a prediction  
 - **Force Plot** – Visualizes contributions per feature
+
+## UNIT TESTING
+1) When the readmission is high
+   ![image](https://github.com/user-attachments/assets/014ce7b7-4611-4bb1-bfb3-aa49f78fecfe)
+
+2) When the patient has not authenticated
+   ![image](https://github.com/user-attachments/assets/fd9db8b3-52e8-4c52-88f8-108c69040c2e)
+
+3) When the doctor tries to predict for a Patient that does not exist
+   ![image](https://github.com/user-attachments/assets/e20c4216-3ad4-457f-8691-7f333cbf4b25)
+
+## ADDITIONAL FEATURES
+## Personlized Diet Plan for Patients
+This part of the project provides personalized diet recommendations using the **Groq LLM API**. The system uses a **Flask** backend to interact with Groq's powerful language models for generating customized meal plans. The project also includes a **Node.js backend** and components for machine learning models .
+
+![image](https://github.com/user-attachments/assets/79b09375-ca6c-4712-9704-9cfe717417ae)
 
   ## OFFICIAL DOCUMENTATION
   https://docs.google.com/document/d/1v5DqrDbMslF0bF4KlzYulq0jqkfomoN9_nI8mE18rhs/edit?usp=sharing
