@@ -18,11 +18,7 @@ def get_diet():
     weight = data['weight']
     history = data['history']
     diet_type = data.get('dietType', 'Veg')  # Default: Veg
-    
-    # Make diet type case-insensitive
     diet_type = diet_type.lower()
-    
-    # Create strict diet guidelines based on type
     diet_guidelines = ""
     if diet_type == "veg":
         diet_guidelines = """
@@ -45,8 +41,6 @@ DIETARY RULES (NON-VEGETARIAN):
 - ✅ ALLOWED: All foods including meat, poultry, fish, eggs, and dairy
 - Include a balanced mix of protein sources
 """
-    
-    # Improved prompt with stronger constraints and explicit examples of violations
     prompt = f"""You are creating a 7-day {diet_type} diet plan with ZERO introduction, explanation, or disclaimers.
 
 Client details:
@@ -84,8 +78,6 @@ Day 2:
         'Authorization': f'Bearer {GROQ_API_KEY}',
         'Content-Type': 'application/json',
     }
-    
-    # Add specific system message to enforce diet type
     system_message = f"You are a professional dietician specialized in {diet_type} diets. Follow the user's instructions EXACTLY."
     
     payload = {
@@ -94,9 +86,8 @@ Day 2:
             {"role": "system", "content": system_message},
             {"role": "user", "content": prompt}
         ],
-        "temperature": 0.2  # Lower temperature for more consistent outputs
+        "temperature": 0.2 
     }
-    
     try:
         res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload)
         
@@ -104,18 +95,14 @@ Day 2:
             return jsonify({"error": f"Failed to fetch from Groq API: {res.text}"}), res.status_code
         
         result = res.json()["choices"][0]["message"]["content"]
-        
-        # Post-processing to verify diet compliance
         if diet_type == "veg" and any(item in result.lower() for item in ["chicken", "beef", "pork", "fish", "salmon", "tuna", "meat", "seafood"]):
             return jsonify({"error": "Generated diet contains non-vegetarian items. Please try again."}), 400
         
         if diet_type == "vegan" and any(item in result.lower() for item in ["milk", "cheese", "yogurt", "cream", "butter", "egg", "honey", "chicken", "beef", "pork", "fish"]):
             return jsonify({"error": "Generated diet contains non-vegan items. Please try again."}), 400
-            
+ 
         return jsonify({"plan": result})
-    
     except Exception as e:
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
-
 if __name__ == '__main__':
     app.run(debug=True)
