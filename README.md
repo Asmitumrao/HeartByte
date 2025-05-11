@@ -46,7 +46,7 @@ Figma Link: https://www.figma.com/design/srSKD2Pv2H9etMUhTxjQo8/Heartbyte?node-i
 ![Desktop - 1 (1)](https://github.com/user-attachments/assets/a99c9e07-ce31-4c9c-b60b-950c16aafdeb)
 
 ## Machine Learning Model Description
-Please for more deatils refer : https://github.com/SakshamTyagii/heartbyte
+Please for more details refer : https://github.com/SakshamTyagii/heartbyte
 
 ## 📊 Dataset Overview
 
@@ -113,7 +113,7 @@ Used **SHAP (SHapley Additive exPlanations)** for interpretability:
    
    ![image](https://github.com/user-attachments/assets/d40f4401-363f-464a-ab8c-97a306c0f1f9)
 
-3) At-risk Patient
+3) At-Risk Patient
    
    ![image](https://github.com/user-attachments/assets/513f4f9a-f625-409e-a89d-0902a0deb0b6)
 
@@ -128,7 +128,7 @@ Used **SHAP (SHapley Additive exPlanations)** for interpretability:
    ![image](https://github.com/user-attachments/assets/e20c4216-3ad4-457f-8691-7f333cbf4b25)
 
 ## ADDITIONAL FEATURES
-## Personlized Diet Plan for Patients
+## Personalized Diet Plan for Patients
 This part of the project provides personalized diet recommendations using the **Groq LLM API**. The system uses a **Flask** backend to interact with Groq's powerful language models for generating customized meal plans. The project also includes a **Node.js backend** and components for machine learning models .
 
 ![image](https://github.com/user-attachments/assets/79b09375-ca6c-4712-9704-9cfe717417ae)
