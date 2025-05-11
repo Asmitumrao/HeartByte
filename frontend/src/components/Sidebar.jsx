@@ -1,6 +1,7 @@
 import { FaUserMd, FaStethoscope, FaFileAlt, FaCog, FaClipboardList,FaQuestionCircle } from 'react-icons/fa';
-
+import { useNavigate } from 'react-router-dom';
 export default function Sidebar({ selected, onSelect }) {
+  const navigate = useNavigate();
   return (
     <div className="bg-white w-64 min-h-screen shadow-md flex flex-col justify-between">
       <div>
@@ -29,11 +30,14 @@ export default function Sidebar({ selected, onSelect }) {
         </ul>
       </div>
       <div className="mb-6 px-6">
-        <div className="flex items-center text-gray-600">
+        <div className="flex items-center flex-col text-gray-600 p-3 gap-3">
           <FaUserMd className="mr-2" />
           <div>
-            <p className="text-sm font-semibold">Louise Thompson</p>
+            <p className="font-semibold text-1xl">Louise Thompson</p>
             <p className="text-xs">Doctor</p>
+          </div>
+          <div>
+            <button className='bg-blue-600 text-white px-3 py-2 rounded-lg' onClick={()=>{navigate('/')}}>Back</button>
           </div>
         </div>
       </div>

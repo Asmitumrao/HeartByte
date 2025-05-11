@@ -4,6 +4,7 @@ import { Menu, X } from 'lucide-react';
 import logo from '../../src/assets/logo.png'
 import {AuthContext} from '../context/AuthContext.jsx';
 import { useContext } from 'react';
+// import Dashboard from '../Pages/Dashboard.jsx';
 
 import LogoutConfirmation from './LogoutConfirmation.jsx';
 const Navbar = () => {
@@ -20,6 +21,7 @@ const Navbar = () => {
           <Link to="/" className="font-semibold text-gray-800">Home</Link>
           <Link to="/about" className="font-semibold text-gray-800">About Us</Link>
           <Link to="/contact" className="font-semibold text-gray-800">Contact Us</Link>
+          <Link to="dashboard" className="font-semibold text-gray-800">Dashboard</Link>
         </div>
 
         {/* Logo Centering */}
