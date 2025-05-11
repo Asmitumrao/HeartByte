@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify        
+from flask import Flask, request, jsonify
+from flask_cors import CORS  # CORS support
 import pandas as pd
 import numpy as np
 import joblib
@@ -6,100 +7,94 @@ import os
 import logging
 
 # Set up logging
-logging.basicConfig(level=logging.INFO, 
-                   format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
-# Initialize Flask app
+# Initialize Flask app with CORS
 app = Flask(__name__)
 
-# Global variables for model and related objects
+# Configure CORS for Node.js backend
+CORS(app, resources={
+    r"/*": {
+        "origins": [
+            "http://localhost:5000",        # Node.js dev server
+            "https://your-node-app.com"      # Production Node.js server
+        ],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type"],
+        "supports_credentials": False,
+        "max_age": 86400
+    }
+})
+
+# Global variables for model components
 model = None
 feature_names = None
 scaler = None
 
-# Load the real model from pickle file
-# def load_model():
-    # global model, feature_names, scaler
-
-    # try:
-    #     logger.info("Loading real model from file...")
-
-    #     # Adjust the path to where you uploaded the file
-    #     file_path = os.path.join(os.path.dirname(__file__), 'best_model.pkl')
-
-    #     model_data = joblib.load(file_path)
-
-    #     if isinstance(model_data, dict):
-    #         model = model_data.get('model')
-    #         scaler = model_data.get('scaler')
-    #         feature_names = model_data.get('feature_names')
-    #     else:
-    #         model = model_data
-    #         scaler = None
-    #         feature_names = []  # You must define this manually if not saved in pickle
-
-    #     logger.info("Real model loaded successfully.")
-    # except Exception as e:
-    #     logger.error(f"Error loading model: {e}")
-    #     model = None
 def load_model():
     global model, feature_names, scaler
+    
     try:
-        import numpy as np  # Test numpy import first
-        import sklearn
-        logger.info("Core dependencies verified")
+        logger.info("Loading model from file...")
+        file_path = os.path.join(os.path.dirname(__file__), 'best_model.pkl')
         
-        # Rest of your loading code...
-    except ImportError as e:
-        logger.error(f"Critical dependency missing: {str(e)}")
-        raise  # This will crash the app visibly  
-# Load model when app starts
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"Model file not found at {file_path}")
+            
+        model_data = joblib.load(file_path)
+
+        if isinstance(model_data, dict):
+            model = model_data.get('model')
+            scaler = model_data.get('scaler')
+            feature_names = model_data.get('feature_names')
+        else:
+            model = model_data
+            scaler = None
+            feature_names = []
+
+        logger.info("Model loaded successfully")
+        
+    except Exception as e:
+        logger.error(f"Failed to load model: {str(e)}")
+        raise
+
 def create_app():
     with app.app_context():
         load_model()
     return app
 
-
 create_app()
 
 @app.route('/health', methods=['GET'])
 def health_check():
-    """Endpoint to check if service is healthy"""
     if model is None:
         return jsonify({'status': 'unhealthy', 'reason': 'Model not loaded'}), 503
     return jsonify({'status': 'healthy'}), 200
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    """Endpoint to make predictions"""
     if model is None:
         return jsonify({'error': 'Model not loaded'}), 503
     
     try:
-        # Get data from request
         data = request.get_json()
         if not data:
             return jsonify({'error': 'No data provided'}), 400
-        
-        # Log prediction request (without sensitive data)
+            
         patient_id = data.get('patient_id', 'unknown')
         logger.info(f"Processing prediction for patient: {patient_id}")
         
-        # Preprocess the input data
         input_features = preprocess_data(data)
-        
-        # Make prediction
         prediction_probabilities = model.predict_proba(input_features)[0]
-        readmission_probability = float(prediction_probabilities[1])  # Probability of positive class
+        readmission_probability = float(prediction_probabilities[1])
         
-        # Determine risk category
         risk_category = categorize_risk(readmission_probability)
-        
-        # Generate recommendations
         recommendations = generate_recommendations(risk_category, data)
         
-        # Return prediction results
         result = {
             'patient_id': patient_id,
             'readmission_probability': readmission_probability,
@@ -107,7 +102,7 @@ def predict():
             'recommendations': recommendations
         }
         
-        logger.info(f"Prediction successful for patient: {patient_id}")
+        logger.info(f"Prediction successful for {patient_id}")
         return jsonify(result), 200
         
     except Exception as e:
@@ -115,60 +110,40 @@ def predict():
         return jsonify({'error': f'Prediction failed: {str(e)}'}), 500
 
 def preprocess_data(data):
-    """Convert input data to the format expected by the model"""
     required_features = [
         'row_id', 'subject_id', 'hadm_id', 'hospital_expire_flag',
         'has_chartevents_data', 'days_to_next_admission',
         'age', 'length_of_stay', 'admission_count', 'days_since_last_admission',
         'num_diagnoses', 'num_procedures'
     ]
-    
-    # Populate from input or defaults
-    patient_features = {f: data.get(f, 0) for f in required_features}
-    
-    # Return as DataFrame
-    return pd.DataFrame([patient_features])
-
+    return pd.DataFrame([{f: data.get(f, 0) for f in required_features}])
 
 def categorize_risk(probability):
-    """Categorize readmission risk based on probability"""
-    if probability < 0.2:
-        return "low"
-    elif probability < 0.5:
-        return "moderate"
-    else:
-        return "high"
+    if probability < 0.2: return "low"
+    elif probability < 0.5: return "moderate"
+    return "high"
 
 def generate_recommendations(risk_category, patient_data):
-    """Generate clinical recommendations based on risk category"""
-    recommendations = []
-    
-    if risk_category == "low":
-        recommendations = [
+    recommendations = {
+        "low": [
             "Routine follow-up in 30 days",
             "Medication adherence education"
-        ]
-    elif risk_category == "moderate":
-        recommendations = [
-            "Follow-up appointment in 14 days",
-            "Telemonitoring for vital signs",
-            "Review medication adherence"
-        ]
-    elif risk_category == "high":
-        recommendations = [
+        ],
+        "moderate": [
+            "Follow-up in 14 days",
+            "Telemonitoring for vital signs"
+        ],
+        "high": [
             "Urgent follow-up within 7 days",
-            "Daily weight monitoring",
-            "Home health nurse visit",
-            "Cardiology consultation"
+            "Daily weight monitoring"
         ]
+    }.get(risk_category, [])
     
-    # Personalized recommendations
-    comorbidities = patient_data.get('comorbidities', [])
-    if 'diabetes' in comorbidities:
-        recommendations.append("Monitor blood glucose closely")
-    if 'hypertension' in comorbidities:
-        recommendations.append("Ensure blood pressure management")
-    
+    if 'diabetes' in patient_data.get('comorbidities', []):
+        recommendations.append("Monitor blood glucose")
+    if 'hypertension' in patient_data.get('comorbidities', []):
+        recommendations.append("Blood pressure management")
+        
     return recommendations
 
 if __name__ == '__main__':
