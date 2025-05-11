@@ -1,5 +1,7 @@
 ﻿# HeartByte - Heart Failure Readmission Prediction
 
+## DEPLOYED LINK: https://heart-byte.vercel.app/dashboard
+
 ## Problem Statement
 
 Heart failure is a prevalent and serious medical condition that often leads to hospital readmissions, which pose risks to patient health and contribute to significant healthcare costs. This project aims to predict the likelihood of heart failure patients being readmitted to the hospital within 30 days after discharge using machine learning models. Early identification of patients at risk of readmission can help healthcare providers allocate resources more effectively and offer timely interventions.
