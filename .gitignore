@@ -8,6 +8,7 @@ backend/outputs/
 node_modules
 node_modules/
 .env
+myenv
 server/.env
 client/node_modules/
 __pycache__/
