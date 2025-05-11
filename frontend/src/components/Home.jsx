@@ -6,8 +6,11 @@ import Navbar from './Navbar';
 import Features from './Features';
 import Footer from './Footer';
 import hero from '../assets/hero.png'
-
+import { AuthContext } from '../context/AuthContext.jsx';
+import { useContext } from 'react';
 const Home = () => {
+
+    const { user } = useContext(AuthContext);
     return (
         <div>
             <Navbar/>
@@ -24,10 +27,25 @@ const Home = () => {
                             heart failure readmissions using real hospital data—helping providers 
                             intervene early, improve care, and save lives, one heartbeat at a time.
                         </p>
-                        <Link to="/register" className="inline-flex  hover:bg-blue-600  items-center bg-red-700 text-white py-3 px-8 rounded-full font-medium">
-                            <span className="mr-2" >Sign In</span>
-                            <ChevronRight className="w-4 h-4" />
-                        </Link>
+                        {user == null ? (
+                            <Link to="/login" className="inline-flex  hover:bg-blue-600  items-center bg-red-700 text-white py-3 px-8 rounded-full font-medium">
+                                <span className="mr-2" >Get Started</span>
+                                <ChevronRight className="w-4 h-4" />
+                            </Link>
+                        ) : (
+                            user.role === 'doctor' ? (
+                                <Link to="/dashboard" className="inline-flex  hover:bg-blue-600  items-center bg-red-700 text-white py-3 px-8 rounded-full font-medium">
+                                    <span className="mr-2" >Dashboard</span>
+                                    <ChevronRight className="w-4 h-4" />
+                                </Link>
+                            ) : (
+                                <Link to="/reports" className="inline-flex  hover:bg-blue-600  items-center bg-red-700 text-white py-3 px-8 rounded-full font-medium">
+                                    <span className="mr-2" >Reports</span>
+                                    <ChevronRight className="w-4 h-4" />
+                                </Link>
+                        )
+                        )}
+
                     </div>
                     
                     {/* Right Image Section */}

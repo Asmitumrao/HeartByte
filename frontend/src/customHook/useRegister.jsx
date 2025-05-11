@@ -10,7 +10,8 @@ const useRegister = () => {
         name: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        role: 'patient',
       });
 
         const handleChange = (e) => {
