@@ -5,7 +5,7 @@ import numpy as np
 import joblib
 import os
 import logging
-from dotenv import load_dotenv
+
 
 # Set up logging
 logging.basicConfig(
@@ -17,16 +17,12 @@ logger = logging.getLogger(__name__)
 # Initialize Flask app with CORS
 app = Flask(__name__)
 
-# Load environment variables
-load_dotenv()
 
-origins = os.getenv('ORIGIN', '*')
-# Configure logging
 
 # Configure CORS for Node.js backend
 CORS(app, resources={
     r"/*": {
-        "origins":origins ,
+        "origins":['https://heartbyte.onrender.com', 'http://localhost:5000'],
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type"],
         "supports_credentials": False,
