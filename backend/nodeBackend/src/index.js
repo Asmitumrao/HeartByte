@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { connectDB } from './config/database.js';
 import dotenv from 'dotenv';
+import morgan from 'morgan';
 dotenv.config();
 
 // Connect to MongoDB
@@ -26,18 +27,21 @@ app.use(cors({ origin: ['https://heart-byte.vercel.app', 'http://localhost:5173'
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(morgan('dev')); 
 
 // --------------------------------------------------------------------------------------------------------
 
 
 // import routes
 import userRoutes from './routes/userRoutes.js';
+import modelRoutes from './routes/modelRoutes.js';
 
 
 
 
 
 app.use('/api/v1/auth', userRoutes);
+app.use('/api/v1/predict',modelRoutes);
 
 
 
