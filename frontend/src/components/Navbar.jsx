@@ -17,11 +17,18 @@ const Navbar = () => {
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         
         {/* Links Section */}
+
         <div className="flex items-center space-x-6 text-lg">
           <Link to="/" className="font-semibold text-gray-800">Home</Link>
           <Link to="/about" className="font-semibold text-gray-800">About Us</Link>
           <Link to="/contact" className="font-semibold text-gray-800">Contact Us</Link>
-          <Link to="dashboard" className="font-semibold text-gray-800">Dashboard</Link>
+
+          {user && user.role === 'doctor'? 
+          (<Link to="/dashboard" className="font-semibold text-gray-800">Dashboard</Link>)
+            :
+          (user && user.role ==='patient'?(<Link to="/reports" className="font-semibold text-gray-800">Reports</Link>):
+          (console.log('No user found')))
+          }
         </div>
 
         {/* Logo Centering */}

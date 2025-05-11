@@ -3,6 +3,7 @@ import { asyncHandler, createResponse, AppError, validateRequest } from '../util
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import sendVerification from '../services/sendVerification.js';
+import router from '../routes/userRoutes.js';
 
 
 const loginUser = asyncHandler(async (req, res) => {
@@ -44,7 +45,7 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 
   // Generate JWT token here if needed
-  const token = jwt.sign({ id: user._id, name: user.name }, process.env.JWT_SECRET, { expiresIn: '24h' });
+  const token = jwt.sign({ id: user._id, name: user.name, role:user.role }, process.env.JWT_SECRET, { expiresIn: '24h' });
   if (!token) {
     throw new AppError('Error generating token', 500);
   }
@@ -65,7 +66,8 @@ const loginUser = asyncHandler(async (req, res) => {
     data: {
       userId: user._id,
       name: user.name,
-      email: user.email
+      email: user.email,
+      role: user.role,
     },
     meta: {
       tokenExpiry: '24h' // or dynamically from config
@@ -74,10 +76,10 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 
-
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password,role } = req.body;
 
   // Validate request using utility
   const errors = validateRequest(req.body, {
@@ -116,8 +118,9 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // Create new user
-  const newUser = new User({ name, email, password: hashedPassword });
-  await newUser.save();
+  const newUser = new User({ name, email, password: hashedPassword , role });
+
+  await newUser.save();``
   if (!newUser) {
     throw new AppError('Error creating user', 500);
   }
@@ -173,14 +176,16 @@ const verifyEmail = asyncHandler(async (req, res) => {
 
 
 const authenticateUser = asyncHandler((req, res) => {
+
+
+  const user = req.user;
+  if (!user) {
+    throw new AppError('User not found', 404);
+  }
   res.status(200).json(createResponse({
     success: true,
     message: 'User authenticated successfully',
-    data: {
-      userId: req.user._id,
-      name: req.user.name,
-      email: req.user.email
-    }
+    data: user,
   }));
 })
 

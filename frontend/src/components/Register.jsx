@@ -61,6 +61,33 @@ const Register = () => {
             required
           />
         </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+          <div className="flex items-center space-x-4">
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="role"
+                value="doctor"
+                checked={formData.role === "doctor"}
+                onChange={handleChange}
+                className="form-radio text-blue-500 focus:ring-blue-500"
+              />
+              <span className="ml-2 text-gray-700">Doctor</span>
+            </label>
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="role"
+                value="patient"
+                checked={formData.role === "patient"}
+                onChange={handleChange}
+                className="form-radio text-blue-500 focus:ring-blue-500"
+              />
+              <span className="ml-2 text-gray-700">Patient</span>
+            </label>
+          </div>
+        </div>
         <button
           type="submit"
           className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-4 rounded-lg hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300 transform hover:-translate-y-1 shadow-md"
