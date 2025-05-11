@@ -106,6 +106,15 @@ Used **SHAP (SHapley Additive exPlanations)** for interpretability:
 - **Waterfall Plot** – Step-by-step explanation of a prediction  
 - **Force Plot** – Visualizes contributions per feature
 
+## OUTCOME:
+1) Healthy Patient
+   
+   ![image](https://github.com/user-attachments/assets/d40f4401-363f-464a-ab8c-97a306c0f1f9)
+
+3) At-risk Patient
+   
+   ![image](https://github.com/user-attachments/assets/513f4f9a-f625-409e-a89d-0902a0deb0b6)
+
 ## UNIT TESTING
 1) When the readmission is high
    ![image](https://github.com/user-attachments/assets/014ce7b7-4611-4bb1-bfb3-aa49f78fecfe)
