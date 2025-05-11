@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FaMale, FaFemale } from 'react-icons/fa';
 import Sidebar from '../components/Sidebar.jsx';
+import Diet from '../components/Diet.jsx';
 
 export default function Dashboard() {
   const [selected, setSelected] = useState('input');
@@ -11,52 +12,223 @@ export default function Dashboard() {
       <div className="flex-1 p-10">
         {selected === 'input' && <PatientInputForm />}
         {selected === 'patients' && <PatientsList />}
+        {selected === 'diet' && <Diet/>}
       </div>
     </div>
   );
 }
 
-// 👇 Patient Form Section
 function PatientInputForm() {
+  const [formData, setFormData] = useState({
+    row_id: '',
+    subject_id: '',
+    hadm_id: '',
+    hospital_expire_flag: '',
+    has_chartevents_data: '',
+    days_to_next_admission: '',
+    is_readmission: '',
+    Age: '',
+    Length_of_stay: '',
+    Admission_count: '',
+    days_since_last_admission: '',
+    num_diagnoses: '',
+    num_procedures: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleAnalysis = () => {
+    console.log('Analyzing data:', formData);
+    // Analysis logic would go here
+  };
+
   return (
-    <div className="bg-white p-8 rounded shadow-md max-w-md mx-auto">
-      <div className="text-center mb-6">
-        <div className="text-3xl">🩺</div>
-        <h2 className="text-xl font-semibold">Patient Info</h2>
+    <div className="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto">
+      <div className="text-center mb-2">
+        <div className="text-xl inline-block">
+          <span role="img" aria-label="Healthcare icon">Enter Patient Details</span>
+        </div>
       </div>
-      <form className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium">Full Name</label>
-          <input type="text" className="w-full border rounded px-3 py-2 mt-1" placeholder="John Doe" />
+      
+      <div className="grid grid-cols-2 gap-15">
+        {/* Left Column */}
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Row Id</label>
+            <input
+              type="text"
+              name="row_id"
+              value={formData.row_id}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700">HADM Id</label>
+            <input
+              type="text"
+              name="hadm_id"
+              value={formData.hadm_id}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Has Chartevents Data</label>
+            <input
+              type="text"
+              name="has_chartevents_data"
+              value={formData.has_chartevents_data}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Is a Readmission</label>
+            <input
+              type="text"
+              name="is_readmission"
+              value={formData.is_readmission}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Length of stay</label>
+            <input
+              type="text"
+              name="Length_of_stay"
+              value={formData.Length_of_stay}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100"
+
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Days since last admission</label>
+            <input
+              type="text"
+              name="days_since_last_admission"
+              value={formData.days_since_last_admission}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100"
+
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Num of Procedures</label>
+            <input
+              type="text"
+              name="num_procedures"
+              value={formData.num_procedures}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100"
+
+            />
+          </div>
         </div>
-        <div>
-          <label className="block text-sm font-medium">Gender</label>
-          <select className="w-full border rounded px-3 py-2 mt-1">
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
+        
+        {/* Right Column */}
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Subject id</label>
+            <input
+              type="text"
+              name="subject_id"
+              value={formData.subject_id}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100"
+
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Hospital Expire Flag</label>
+            <input
+              type="text"
+              name="hospital_expire_flag"
+              value={formData.hospital_expire_flag}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Days To Next Admission</label>
+            <input
+              type="text"
+              name="days_to_next_admission"
+              value={formData.days_to_next_admission}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Age</label>
+            <input
+              type="text"
+              name="Age"
+              value={formData.Age}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Admission Count</label>
+            <input
+              type="text"
+              name="Admission_count"
+              value={formData.Admission_count}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100"
+            />
+          </div>
+          
+          <div className='mx-auto'>
+            <label className="block text-sm font-medium text-gray-700">Number of Diagnoses</label>
+            <input
+              type="text"
+              name="num_diagnoses"
+              value={formData.num_diagnoses}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 bg-gray-100"
+            />
+          </div>
         </div>
-        <div>
-          <label className="block text-sm font-medium">Enter Age</label>
-          <input type="number" className="w-full border rounded px-3 py-2 mt-1" placeholder="Eg-25" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Patient ID</label>
-          <input type="text" className="w-full border rounded px-3 py-2 mt-1" placeholder="e.g. 123456" />
-        </div>
-        <button type="submit" className="w-full bg-red-700 text-white py-2 rounded">Analyze</button>
-      </form>
+      </div>
+      
+      <div className="mt-6">
+        <button
+          onClick={handleAnalysis}
+          className="w-full bg-red-700 text-white py-3 px-4 rounded-md font-medium hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+        >
+          Analysis
+        </button>
+      </div>
     </div>
   );
 }
 
-// 👇 Patient Cards Section
 const patients = [
   { id: 'P001', name: 'John Doe', age: 45, gender: 'male' },
   { id: 'P002', name: 'Jane Smith', age: 52, gender: 'female' },
   { id: 'P003', name: 'Robert Wilson', age: 38, gender: 'male' },
   { id: 'P004', name: 'Emily Davis', age: 29, gender: 'female' },
+  { id: 'P004', name: 'Marie Styles', age: 29, gender: 'female' },
 ];
 
 function PatientsList() {
