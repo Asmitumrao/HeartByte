@@ -14,7 +14,8 @@ connectDB();
 // Initialize express app
 const app = express();
 const PORT = process.env.PORT || 5000;
-app.use(cors({ origin: process.env.CLIENT_URL,credentials: true }));
+const client =process.env.CLIENT_URL;
+app.use(cors({ origin:client,credentials: true }));
 // // Middleware
 // app.use(cors(
 //   {
