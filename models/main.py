@@ -19,31 +19,41 @@ feature_names = None
 scaler = None
 
 # Load the real model from pickle file
+# def load_model():
+    # global model, feature_names, scaler
+
+    # try:
+    #     logger.info("Loading real model from file...")
+
+    #     # Adjust the path to where you uploaded the file
+    #     file_path = os.path.join(os.path.dirname(__file__), 'best_model.pkl')
+
+    #     model_data = joblib.load(file_path)
+
+    #     if isinstance(model_data, dict):
+    #         model = model_data.get('model')
+    #         scaler = model_data.get('scaler')
+    #         feature_names = model_data.get('feature_names')
+    #     else:
+    #         model = model_data
+    #         scaler = None
+    #         feature_names = []  # You must define this manually if not saved in pickle
+
+    #     logger.info("Real model loaded successfully.")
+    # except Exception as e:
+    #     logger.error(f"Error loading model: {e}")
+    #     model = None
 def load_model():
     global model, feature_names, scaler
-
     try:
-        logger.info("Loading real model from file...")
-
-        # Adjust the path to where you uploaded the file
-        file_path = os.path.join(os.path.dirname(__file__), 'best_model.pkl')
-
-        model_data = joblib.load(file_path)
-
-        if isinstance(model_data, dict):
-            model = model_data.get('model')
-            scaler = model_data.get('scaler')
-            feature_names = model_data.get('feature_names')
-        else:
-            model = model_data
-            scaler = None
-            feature_names = []  # You must define this manually if not saved in pickle
-
-        logger.info("Real model loaded successfully.")
-    except Exception as e:
-        logger.error(f"Error loading model: {e}")
-        model = None
-
+        import numpy as np  # Test numpy import first
+        import sklearn
+        logger.info("Core dependencies verified")
+        
+        # Rest of your loading code...
+    except ImportError as e:
+        logger.error(f"Critical dependency missing: {str(e)}")
+        raise  # This will crash the app visibly  
 # Load model when app starts
 def create_app():
     with app.app_context():
