@@ -47,7 +47,7 @@ const predict = async (req, res) => {
     }
     try{
         // Make a POST request to the prediction API
-        const response = await axios.post(`${process.env.MODEL_URL}/predict`, {
+        const response = await axios.post(`https://heartbyte-1.onrender.com/predict`, {
             patient_id,
             days_to_next_admission,
             age,
@@ -65,6 +65,7 @@ const predict = async (req, res) => {
         }));
 
     }catch(err){
+        console.error(err);
         return res.status(500).json(createResponse({ 
             success: false,
             message: 'Internal server error',
