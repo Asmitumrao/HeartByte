@@ -6,6 +6,7 @@ import joblib
 import os
 import logging
 
+
 # Set up logging
 logging.basicConfig(
     level=logging.INFO,
@@ -16,13 +17,12 @@ logger = logging.getLogger(__name__)
 # Initialize Flask app with CORS
 app = Flask(__name__)
 
+
+
 # Configure CORS for Node.js backend
 CORS(app, resources={
     r"/*": {
-        "origins": [
-            "http://localhost:5000",        # Node.js dev server
-            "https://your-node-app.com"      # Production Node.js server
-        ],
+        "origins":['https://heartbyte.onrender.com', 'http://localhost:5000'],
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type"],
         "supports_credentials": False,
