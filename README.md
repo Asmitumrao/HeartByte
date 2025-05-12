@@ -135,5 +135,9 @@ This part of the project provides personalized diet recommendations using the **
 
 ![image](https://github.com/user-attachments/assets/79b09375-ca6c-4712-9704-9cfe717417ae)
 
-  ## OFFICIAL DOCUMENTATION
+## OFFICIAL DOCUMENTATION
   https://docs.google.com/document/d/1v5DqrDbMslF0bF4KlzYulq0jqkfomoN9_nI8mE18rhs/edit?usp=sharing
+
+## EXPLANATION VIDEO
+
+https://drive.google.com/file/d/13GFURuUzPL4jqGMBaUWtf_b2dhaU1FM3/view?usp=drivesdk
