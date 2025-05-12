@@ -56,6 +56,8 @@ const predict = async (req, res) => {
             days_since_last_admission,
             num_diagnoses,
             num_procedures
+        },{
+            timeout: 200000,//
         });
         console.log(response.data);
         return res.status(200).json(createResponse({ 
