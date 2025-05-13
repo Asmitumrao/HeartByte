@@ -1,8 +1,6 @@
-
 import { useState } from 'react';
-import { FaMale, FaFemale, FaClipboardList, FaUser, FaUtensils } from 'react-icons/fa';
+import { FaMale, FaFemale, FaClipboardList, FaUser, FaExternalLinkAlt } from 'react-icons/fa';
 import Sidebar from '../components/Sidebar.jsx';
-import Diet from '../components/Diet.jsx';
 import { ToastContainer } from 'react-toastify';
 import usePredict from '../customHook/usePredict.jsx';
 import PredictionResults from '../components/PredictionResults.jsx';
@@ -10,6 +8,9 @@ import PredictionResults from '../components/PredictionResults.jsx';
 export default function Dashboard() {
  
   const [selected, setSelected] = useState('input');
+  
+  // External diet plan URL
+  const dietPlanUrl = "/diet-management";
 
   return (
     <div className="flex bg-gray-100 min-h-screen font-sans">
@@ -24,9 +25,38 @@ export default function Dashboard() {
           
           {selected === 'input' && <PatientInputForm />}
           {selected === 'patients' && <PatientsList />}
-          {selected === 'diet' && <Diet/>}
+          {selected === 'diet' && <DietRedirect url={dietPlanUrl} />}
         </div>
       </div>
+    </div>
+  );
+}
+
+// New component to redirect to external diet plan
+function DietRedirect({ url }) {
+  return (
+    <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+      <div className="mb-6">
+        <div className="bg-blue-100 rounded-full p-4 inline-block">
+          <FaExternalLinkAlt className="text-3xl text-blue-600" />
+        </div>
+      </div>
+      <h2 className="text-2xl font-bold text-gray-800 mb-3">Accessing Dietary Management</h2>
+      <p className="text-gray-600 mb-6">
+        Our dietary management system is hosted on a separate platform for better performance and specialized features.
+      </p>
+      <a 
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-all duration-200"
+      >
+        <span>Open Diet Management System</span>
+        <FaExternalLinkAlt className="ml-2" />
+      </a>
+      <p className="mt-4 text-sm text-gray-500">
+        You will be redirected to our dedicated dietary management platform.
+      </p>
     </div>
   );
 }
