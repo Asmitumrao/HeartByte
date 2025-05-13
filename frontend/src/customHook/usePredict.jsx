@@ -61,6 +61,7 @@ const usePredict = () => {
                 'Content-Type': 'application/json',
                 },
                 withCredentials: true,
+                  timeout: 200000,
             });
             if (response.status === 200) {
                 handleSuccess('Analysis successful!');
